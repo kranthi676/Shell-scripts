@@ -1,0 +1,898 @@
+Shell : 
+
+The shell provides you with an interface to the UNIX system.
+
+It gathers input from you and executes programs based on that input. 
+
+When a program finishes executing, it displays that program's output.
+
+A shell is an environment in which we can run our commands, programs, and shell scripts. 
+
+There are different flavors of shells, just as there are different flavors of operating systems. 
+
+Each flavor of shell has its own set of recognized commands and functions
+
+DOS = Command.com
+Windows3.1/windows NT 3.x = program manager
+Windows 95/98/ME/NT4/2000/XP = Windows Explorer
+
+Types of Shell : 
+
+K-Shell David Korn (not free)
+
+C-Shell (Based on C-programming Language)
+
+Bash = Bourne Again Shell.
+
+
+#!/bin/sh
+cd /home/ganesh/logfiles
+rm program.log.6
+mv program.log.5 program.log.6
+mv program.log.4 program.log.5
+mv program.log.3 program.log.4
+mv program.log.2 program.log.3
+mv program.log.1 program.log.2
+mv program.log   program.log.1
+
+#!/bin/bash
+pwd
+ls -c
+date
+
+#!/bin/bash
+echo -n please enter your name:
+read name
+echo Hello $name How are you ?
+
+#!/bin/bash
+echo -n "please enter your name: "
+read name
+echo Hello $name.
+
+touch askname ; echo ganesh > askname
+
+ls userlist.txt xyz  > file 2>errors
+
+ls userlist.txt xyz  > file 2>&1
+
+============================================
+
+sleep 1000
+
+sleep 1000&
+
+
+
+Program : 1
+
+#
+#	First, all possible users.  These are found in the file "/etc/passwd"
+#
+echo "Number of possible users on the system: \c"
+cat /etc/passwd | wc -l
+
+#
+#	Next, all users currently logged in (using "who")
+#
+echo "Number of users logged onto the system: \c"
+who | wc -l
+
+#
+#	Finally, the number of running processes (using "ps -e")
+#
+echo "Total number of processes running:      \c"
+ps -e | wc -l
+
+
+program : 2
+
+#
+#	First, the user's name
+#
+echo "Please enter your name: \c"
+read name
+echo Name: $name > details.out
+
+#
+#	Next, the user's address
+#
+echo "Please enter your address: \c"
+read address
+echo Address: $address >> details.out		# note: APPENDING!
+
+#
+#	Next, the user's phone number
+#
+echo "Please enter your phone number: \c"
+read phone
+echo Phone: $phone >> details.out
+
+#
+#	Finally, display the message about the filename
+#
+echo Thank you.  The details have been stored in the file \"details.out\"
+
+
+
+=============================================
+
+Special Characters :
+
+&   *   ?  []  < > |  ( )  #  $  ^ =  '  " { } ; \
+
+===============================================
+
+echo the fee is $10
+
+echo the fee is \$10
+
+echo comments begin with a # character
+
+echo "comments begin with a #character"
+
+echo "the fee is \$10"
+
+echo the fee is '$'10
+
+
+
+
+
+Variables
+The .profile or .bash_profile files in your home directory. These files are used to set environmental items for a users shell.
+/etc/profile file is not very different however it is used to set system wide environmental variables on users shells.
+/etc/profile.d
+In addition to the setting environmental items the /etc/profile will execute the scripts within /etc/profile.d/*.sh. If you plan on setting your own system wide environmental variables it is recommended to place your configuration in a shell script within /etc/profile.d.
+
+.bashrc file in your home directory. This file is meant for setting command aliases and functions used by bash shell users.
+ The /etc/bashrc is setting command aliases  in system wide 
+
+
+conditional code
+
+True/false
+
+ls
+echo $? 
+0
+ls dd
+echo $?
+2
+true
+echo $?
+0
+false
+echo $?
+1
+
+
+Conditional command execution
+
+command1 && command2
+
+command3 || command4
+
+cp abc xyz && echo the file was copied okay (if the abc and xyz exists and then excute echo )
+
+ls file2 || ls 
+
+if the command exists error and then run the second command
+
+IF STATEMENT
+
+Syntax
+
+if command1
+ then
+    command2
+    command3
+....
+fi
+
+example :
+
+
+if diff file1 file2 > /dev/null
+ then
+    echo The files are the same
+    rm file2
+fi
+
+
+Else clause:
+
+if command1
+then
+one set of commands
+else
+another set of commands
+fi
+
+
+if the first set of commands exits non-zero then excute second set of commands
+
+if the second set condition is met then close the loop
+
+
+
+example:
+
+if diff file1 file2 > /dev/null
+ then
+echo the files are the same
+rm file2
+else
+echo the files are different!
+echo please review the differences:
+diff file1 file2
+fi
+else clause example 2 :
+
+#!/bin/bash
+if ls nofile > /dev/null
+then
+: # ":" is the "do nothing" command
+else
+echo the file does not exist --exiting...
+exit
+fi
+
+elif syntax : 
+
+if command1
+then
+command set 1
+elif command2
+then
+command set 2
+else
+command set 3
+fi
+
+#!/bin/bash
+
+read -p "Enter value of i :" i
+
+if [ $i -eq 5 ]
+then
+    echo "Value of i is 5"
+elif [ $i -eq 10 ]
+then
+    echo "Value of i is 10"
+else
+    echo "Value of i is not equal to 5 or 10"
+fi
+~
+
+Comparisons statement
+
+Test
+
+var1=10
+test $var1 = 20
+echo $?
+
+if test $var1 -gt $max
+then
+echo That value is too large 
+fi
+
+Test$var1 = 20
+
+Spaces are must and should
+
+Example
+
+x=
+test $x = 20
+-bash: test: =: unary operator expected
+test "$x" = 20
+
+test -f /etc/passwd
+
+echo $?
+
+test -d .
+echo $?
+
+dir=/etc/garbage
+test -d $dir
+echo $?
+
+test ! 
+
+! = not
+
+example
+
+test ! -w /etc/passwd
+
+echo $?
+
+example of test :
+
+#!/bin/bash
+echo -n "please enter a filename: "
+read fname
+if test -z "$fname"
+then
+echo "you did not enter a filename"
+elif test -f "$fname" -a -w "$fname"
+then
+echo "Every thing is fine"
+else
+echo "The file is not a writable file"
+fi
+
+here -a = and 
+
+here -z = to check the file is exists or not 
+
+test also have feature ( -o = or ) either of the condition 
+
+Comparisons:
+-eq	equal to
+-ne	not equal to
+-lt	less than
+-le	less than or equal to
+-gt	greater than
+-ge	greater than or equal to
+
+File Operations:
+-s	file exists and is not empty
+-f	file exists and is not a directory
+-d	directory exists
+-x	file is executable
+-w	file is writable
+-r	file is readable
+
+test also can achive 
+
+#!/bin/bash
+echo -n "please enter a filename: "
+read fname
+if [ -z "$fname" ]
+then
+echo "you did not enter a filename"
+elif [ -f "$fname" -a -w "$fname" ]
+then
+echo "Every thing is fine"
+else
+echo "The file is not a writable file"
+fi
+
+
+#!/bin/sh
+
+# Prompt for a user name...
+echo "Please enter your age:"
+read AGE
+
+if [ "$AGE" -lt 20 ] || [ "$AGE" -ge 50 ]; then
+        echo "Sorry, you are out of the age range."
+elif [ "$AGE" -ge 20 ] && [ "$AGE" -lt 30 ]; then
+        echo "You are in your 20s"
+elif [ "$AGE" -ge 30 ] && [ "$AGE" -lt 40 ]; then
+        echo "You are in your 30s"
+elif [ "$AGE" -ge 40 ] && [ "$AGE" -lt 50 ]; then
+        echo "You are in your 40s"
+fi
+
+Case Statement
+
+Syntax
+
+if [ $var1 = val1 ]
+then
+code for case1
+elif [ $var1 = val2 ]
+then
+code for case2
+elif [ $var1 = val3 ]
+then
+code for case 3
+elif [ $var1 = val4 ]
+then
+
+etc
+
+#!/bin/bash
+
+selection=
+until [ "$selection" = "0" ]; do
+    echo "
+    PROGRAM MENU
+    1 - Display free disk space
+    2 - Display free memory
+    3 - Display load on the server
+    0 - exit program
+"
+    echo -n "Enter selection: "
+    read selection
+    echo ""
+    case $selection in
+        1 ) df ;;
+        2 ) free ;;
+        3 ) top ;;
+        0 ) exit ;;
+        * ) echo "Please enter 1, 2,3, or 0"
+    esac
+done
+
+
+
+while syntax:
+
+while command
+do
+code block
+done
+
+example : 1
+
+#!/bin/bash
+echo -n "Please enter your country name : "
+read country
+while [ "$country" != india  ]
+do
+echo "That answer is incorrect please enter again"
+echo -n "Please enter your country name : "
+read country
+done
+echo " My country is $country ,I'm an indian "
+
+
+example :2
+
+#!/bin/bash
+echo -n "Please enter the name of a directory : "
+read dir
+while [ ! -d "$dir" ]
+do
+echo "$dir is not a directory"
+echo -n "please try a again : "
+read dir
+done
+echo congratulations : $dir is a directory!
+
+
+inifinite Loop 
+
+#!/bin/sh
+echo -n "Please enter the value of a :  "
+read a
+
+until [ $a -lt 10 ]
+do
+   echo $a
+   a=`expr $a + 1`
+done
+
+Break:
+
+#!/bin/sh
+echo -n " Please enter a value of a : "
+read a
+while [ $a -lt 10 ]
+do
+   echo $a
+   if [ $a -eq 5 ]
+   then
+      break
+   fi
+   a=`expr $a + 1`
+done
+
+Continue:
+
+#!/bin/sh
+echo -n " Please enter a value of a : "
+read a
+while [ $a -lt 10 ]
+do
+   echo $a
+   if [ $a -eq 5 ]
+   then
+      continue
+   fi
+   a=`expr $a + 1`
+done
+
+Numerical calculations
+
+expr 1 + 2
+expr 3 \* 4
+
+example
+
+#!/bin/bash
+a=15
+b=3
+c=`expr $a / $b`
+echo $c
+
+For Loops
+
+#!/bin/bash
+i=1
+weekdays="Mon Tue Wed Thu Fri Sat Sun"
+for day in $weekdays
+do
+ echo "Weekday $((i++)) : $day"
+done
+
+
+#!/bin/bash
+i=1
+cd ~
+for file in *
+do
+ echo "File $((i++)) : $file"
+done
+
+#!/bin/sh
+read -p "Please enter the number :" NUMS
+
+for NUM in $NUMS
+do
+   Q=`expr $NUM % 2`
+   if [ $Q -eq 0 ]
+   then
+      echo "Number is an even number!!"
+      continue
+   fi
+   echo "Found odd number"
+done
+
+
+
+Text Processing
+
+wc -l : Prints the number of lines in a file.
+wc -w : prints the number of words in a file.
+wc -c : Displays the count of bytes in a file.
+wc -m : prints the count of characters from a file.
+wc -L : prints only the length of the longest line in a file.
+ls -l | wc 
+
+lines words characters
+
+grep = Global regular Expression Parser
+
+cat file.txt
+ostechnix
+Ostechnix
+o$technix
+linux
+linus
+unix
+technology
+hello world
+HELLO world
+
+grep nix file.txt
+
+grep 'hello world' file.txt
+
+grep -n nix file.txt
+
+grep os file.txt 
+
+grep -i os file.txt 
+
+grep -i 'hello world' file.txt
+
+cat file.txt | grep os
+
+grep tech file.txt
+
+grep ^tech file.txt = word start with tech
+
+grep .n file.txt = word contains "n"
+
+extended grep or grep -E
+
+egrep -r 'aws_access_key_id|aws_secret_access_key' > /tmp/audit1.txt
+
+egrep '^(l|o)' file.txt
+
+egrep '^[l-u]' file.txt range 
+
+egrep '^[l-u]|[L-U]' file.txt
+
+
+ fast grep / grep -F
+
+grep x$ file.txt
+
+fgrep o$ file.txt 
+
+https://www.ostechnix.com/the-grep-command-tutorial-with-examples-for-beginners/
+
+
+sort : 
+
+filename.txt
+
+abhishek
+chitransh
+satish
+rajan
+naveen
+divyam
+harsh
+
+mix.txt
+
+abc
+apple
+BALL
+Abc
+bat
+
+sort mix.txt
+
+sort file.txt > output.txt
+
+sort -o output.txt file.txt
+
+-r Option: Sorting In Reverse Order
+
+sort -r inputfile.txt
+
+-n Option 
+
+To sort a file numerically used –n option. -n option is also predefined in unix as the above options are. This option is used to sort the file with numeric data present inside.
+
+sort -n file1.txt
+
+-nr option
+
+-nr option : To sort a file with numeric data in reverse order we can use the combination of two options as stated below.
+
+
+sort 
+
+employee.txt
+
+manager  5000
+clerk    4000
+employee  6000
+peon     4500
+director 9000
+guard     3000
+
+sort -k 2n employee.txt
+
+-c option : This option is used to check if the file given is already sorted or not & checks if a file is already sorted pass the -c option to sort. This will write to standard output if there are lines that are out of order.The sort tool can be used to understand if this file is sorted and which lines are out of order
+Example :
+
+filename.txt
+
+Audi
+Cadillac
+BMW
+Dodge
+
+Command :
+$ sort -c cars.txt
+Output :
+sort: cars.txt:3: disorder: BMW
+ Note : If there is no output then the file is considered to be already sort
+
+-u option : To sort and remove duplicates pass the -u option to sort. This will write a sorted list to standard output and remove duplicates.
+This option is helpful as the duplicates being removed gives us an redundant file
+
+filename.txt
+
+Audi
+BMW
+Cadillac
+BMW
+Dodge
+
+
+sort -u filename.txt
+
+-M Option : To sort by month pass the -M option to sort. This will write a sorted list to standard output ordered by month name.
+
+months.txt
+
+February
+January
+March
+August
+September
+
+sort -M months.txt
+
+https://www.geeksforgeeks.org/sort-command-linuxunix-examples/
+
+
+sed 
+
+stearm editor
+
+:s/bash/bourne again shell/ 
+
+:s/bash/bourne again shell/g
+
+1,10s/bash/bourne/ or 40,$s/foo/bar
+
+11,20d -delete
+
+3,$!d
+/ducks/!d
+
+
+AWK
+
+AWK
+
+Aho, Weinberger, and Kernighan
+
+To print 
+
+awk '{print "Welcome to awk command tutorial "}'
+
+Using Variables
+
+$0 for the whole line.
+$1 for the first field.
+$2 for the second field.
+$n for the nth field.
+
+
+Cat myfile 
+
+This is a Test
+This is a First Test
+This is a Second Test
+This is a Third Test
+
+
+awk '{print $1}' myfile
+
+Sometimes the separator in some files is not space nor tab but something else. You can specify it using –F option:
+
+awk -F: '{print $1}' /etc/passwd
+
+Using Multiple Commands
+
+echo "Hello Tom" | awk '{$2="Adam"; print $0}'
+
+Awk can take the following options:
+
+-F fs     To specify a file separator.
+
+-f file     To specify a file that contains awk script.
+
+-v var=value     To declare a variable.
+
+
+Ref : https://likegeeks.com/awk-command/
+
+
+
+
+Functions
+
+Code Structure of Shell
+
+Intrepreter
+Opening Comment
+Important Variables
+Functions
+main body of code
+
+Syntax of Functions
+
+function func_name {
+. . .
+commands
+. . .
+}
+or
+func_name ( ) {
+. . .
+commands
+. . .
+}
+Opening curly braces can also be used in the second line as well.
+func_name ( )
+{
+. . .
+commands
+. . .
+}
+Example:
+
+#!/bin/bash
+file=greptest
+
+pause()
+{
+echo -n "hit <enter> to continue : "
+read junk
+}
+
+echo Lines that are start with a T:
+grep '^T' $file
+pause
+
+echo ===========================
+echo Blank Lines :
+grep '$^' $file
+pause
+
+echo ============
+echo Lines that have two or more a\'s anywhere in them :
+grep 'aa' $file
+pause
+
+Function Parameters 
+
+[root@server shellscripts]# ps
+  PID TTY          TIME CMD
+ 1539 pts/0    00:00:00 bash
+ 1602 pts/0    00:00:00 ps
+[root@server shellscripts]# ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+root      1539  1537  0 21:35 pts/0    00:00:00 -bash
+root      1603  1539  0 21:45 pts/0    00:00:00 ps -f
+
+Example
+
+backup_one_file()
+{
+cp $1 $backupdir
+echo $1 has been backedup
+}
+
+
+backup_one_file report.txt
+backup_one_file logo.gif
+
+
+Each parameter 
+
+$* = represents all the parameters 
+$# = represents the number of parameter
+
+
+#!/bin/bash
+backup_these_files()
+{
+for fname #short for "for fname in $*"
+do
+cp $fname /tmp
+echo $fname has been backed up
+done
+}
+backup_these_files *.txt *.doc
+
+Function Return Values
+
+output
+an exit status 
+sample_func | wc -l Another Program
+sample_func > file1 A file
+output=`sample_func` Stored in a variable
+
+Example 
+
+Vaild_file{}
+{
+[ ! -r $1 ] && return 1
+grep LOGFILE $1 > /dev/null || return 1
+return 0 
+}
+
+Return statement terminates the execution of the current function 
+
+Exit statement terminates the execution of the current shell 
+
+which usually means that the shell script terminates and the user is left back at their login shell
+
+
